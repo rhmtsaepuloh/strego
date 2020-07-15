@@ -10,7 +10,7 @@ class Company extends CI_Controller
 
   public function list()
   {
-    $getData = $this->Db_select->query_all('select id, name, status from company where status = 1');
+    $getData = $this->Db_select->query_all('select id, name, status, type_gameplay from company where status = 1');
 
     if ($getData) {
       $result['status'] = true;

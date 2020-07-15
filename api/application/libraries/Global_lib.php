@@ -105,4 +105,27 @@ class Global_lib {
 
     return $result;
   }
+
+  public function getGamePlay($userId)
+  {
+    $where['id'] = $userId;
+    $user = $this->CI->Db_select->select_where('user', $where);
+
+    if ($user) {
+      $whereCompany['id'] = $user->id_company;
+      $company = $this->CI->Db_select->select_where('company', $whereCompany);
+
+      if ($company) {
+        if ($company->type_gameplay == 1) {
+          return 1;
+        } else {
+          return 0;
+        }
+      } else {
+        return 0;
+      }
+    } else {
+      return 0;
+    }
+  }
 }

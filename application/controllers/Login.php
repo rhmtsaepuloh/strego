@@ -14,6 +14,20 @@ class Login extends CI_Controller {
     }
   }
 
+  public function superadmin()
+  {
+    if ($this->session->userdata('user')) {
+      redirect(base_url('dashboard'));
+    } else {
+      $this->load->view('superadmin/login');
+    }
+  }
+
+  public function superadminAuth()
+  {
+    echo json_encode($_POST);
+  }
+
   public function auth()
   {
     $where['username'] = $this->input->post('username');
