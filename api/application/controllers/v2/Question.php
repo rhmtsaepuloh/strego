@@ -25,6 +25,10 @@ class Question extends CI_Controller
     if ($getDataInvite) {
       $getIssue = $this->Db_select->select_all('question_list');
 
+      foreach ($getIssue as $key => $value) {
+        $value->type = $this->Db_select->query('select id, name from type_form where id = '.$value->type);
+      }
+
       $result['status'] = true;
       $result['message'] = 'Success';
       $result['data'] = $getIssue;
