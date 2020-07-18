@@ -22,8 +22,9 @@ class User extends CI_Controller
     $this->global_lib->input($require);
 
     $gamePlay = $this->global_lib->getGamePlay($this->input->post('user_id'));
+    $user = $this->Db_select->select_where('user', ['id' => $this->input->post('user_id')]);
 
-    $getData = $this->Db_select->query_all('select a.id as id_user, a.email, a.username, a.name as name_user, a.email, a.is_online, a.in_game, b.id as id_company, b.name as company_name from user a join company b on a.id_company = b.id where a.status = 1 and b.type_gameplay = '.$gamePlay.' and a.id != '.$this->input->post('user_id').' order by a.is_online desc');
+    $getData = $this->Db_select->query_all('select a.id as id_user, a.email, a.username, a.name as name_user, a.email, a.is_online, a.in_game, b.id as id_company, b.name as company_name from user a join company b on a.id_company = b.id where a.status = 1 and b.type_gameplay = '.$gamePlay.' and a.id_company != '.$user->id_company.' and a.id != '.$this->input->post('user_id').' order by a.is_online desc');
 
     if ($getData) {
       $result['status'] = true;
@@ -44,8 +45,9 @@ class User extends CI_Controller
     $this->global_lib->input($require);
 
     $gamePlay = $this->global_lib->getGamePlay($this->input->post('user_id'));
+    $user = $this->Db_select->select_where('user', ['id' => $this->input->post('user_id')]);
 
-    $getData = $this->Db_select->query_all('select a.id as id_user, a.email, a.username, a.name as name_user, a.email, a.is_online, a.in_game, b.id as id_company, b.name as company_name from user a join company b on a.id_company = b.id where a.status = 1 and b.type_gameplay = '.$gamePlay.' and a.is_online = 1 and a.id != '.$this->input->post('user_id').' order by a.is_online desc');
+    $getData = $this->Db_select->query_all('select a.id as id_user, a.email, a.username, a.name as name_user, a.email, a.is_online, a.in_game, b.id as id_company, b.name as company_name from user a join company b on a.id_company = b.id where a.status = 1 and b.type_gameplay = '.$gamePlay.' and a.id_company != '.$user->id_company.' and a.is_online = 1 and a.id != '.$this->input->post('user_id').' order by a.is_online desc');
 
     if ($getData) {
       $result['status'] = true;
@@ -66,8 +68,9 @@ class User extends CI_Controller
     $this->global_lib->input($require);
 
     $gamePlay = $this->global_lib->getGamePlay($this->input->post('user_id'));
+    $user = $this->Db_select->select_where('user', ['id' => $this->input->post('user_id')]);
 
-    $getData = $this->Db_select->query_all('select a.id as id_user, a.email, a.username, a.name as name_user, a.email, a.is_online, a.in_game, b.id as id_company, b.name as company_name from user a join company b on a.id_company = b.id where a.status = 1 and b.type_gameplay = '.$gamePlay.' and a.in_game = 1 and a.id != '.$this->input->post('user_id').' order by a.is_online desc');
+    $getData = $this->Db_select->query_all('select a.id as id_user, a.email, a.username, a.name as name_user, a.email, a.is_online, a.in_game, b.id as id_company, b.name as company_name from user a join company b on a.id_company = b.id where a.status = 1 and b.type_gameplay = '.$gamePlay.' and a.id_company != '.$user->id_company.' and a.in_game = 1 and a.id != '.$this->input->post('user_id').' order by a.is_online desc');
 
     if ($getData) {
       $result['status'] = true;
