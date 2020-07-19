@@ -5,6 +5,9 @@ class Company extends CI_Controller
   function __construct()
   {
     parent::__construct();
+    if (!$this->session->userdata('superadmin')) {
+      redirect(base_url('administrator'));
+    }
   }
 
   public function index()
@@ -12,9 +15,9 @@ class Company extends CI_Controller
     $where['status'] = 1;
     $data['list'] = $this->Db_select->select_all_where('company', $where);
 
-    $this->load->view('header', $data);
+    $this->load->view('superadmin/header', $data);
     $this->load->view('company');
-    $this->load->view('footer');
+    $this->load->view('superadmin/footer');
   }
 
   public function insert()

@@ -9,8 +9,9 @@ class Issue extends CI_Controller
 
   public function index()
   {
+    $administrator = $this->session->userdata('user');
     $list = $this->Db_select->select_all('issue');
-    $data['company'] = $this->Db_select->select_all('company');
+    $data['company'] = $this->Db_select->select_all_where('company', ['type_gameplay' => $administrator['role']]);
 
     foreach ($list as $key => $value) {
       $getWeight = $this->Db_select->query_all('select a.*, b.name from weight a join company b on a.id_company = b.id where a.id_issue = '.$value->id);

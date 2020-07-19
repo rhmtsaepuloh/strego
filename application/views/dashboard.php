@@ -14,7 +14,7 @@
           History Game Play
         </div>
         <div class="card-body">
-          <table class="table table-responsive-sm table-striped">
+          <table class="table table-responsive-sm table-striped" id="dashboardTable">
             <thead>
               <tr>
                 <th>No</th>
@@ -45,3 +45,9 @@
     </div>
   </div>
 </main>
+
+<script>
+  $(document).ready(function() {
+    $('#dashboardTable').DataTable();
+  });
+</script>

@@ -6,10 +6,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => 'rahmat0987',
-	'database' => 'strego',
+	'hostname' => 'localhost',
+	'username' => 'yasa5451_strego',
+	'password' => 'D[X{x!rt-E8y',
+	'database' => 'yasa5451_strego',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

@@ -95,24 +95,24 @@
             processData: false,
             success: function(data, status, xhr) {
               console.log(xhr.responseText)
-              // try {
-              //   var result = JSON.parse(xhr.responseText);
-              //   if (result.status == true) {
-              //     location.reload();
-              //   } else {
-              //     swal({
-              //       icon: "warning",
-              //       title: "",
-              //       text: result.message,
-              //     });
-              //   }
-              // } catch (e) {
-              //   swal({
-              //     title: "",
-              //     text: "Sistem error.",
-              //     icon: "warning"
-              //   });
-              // }
+              try {
+                var result = JSON.parse(xhr.responseText);
+                if (result.status == true) {
+                  location.reload();
+                } else {
+                  swal({
+                    icon: "warning",
+                    title: "",
+                    text: result.message,
+                  });
+                }
+              } catch (e) {
+                swal({
+                  title: "",
+                  text: "Sistem error.",
+                  icon: "warning"
+                });
+              }
             },
             error: function(data) {
               btnlogin.ladda('stop');

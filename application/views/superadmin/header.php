@@ -35,8 +35,8 @@
     </script>
     <link href="<?php echo base_url();?>assets/vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- CDN DATATABLE -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
   </head>
   <body class="c-app">
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
@@ -49,25 +49,18 @@
         </svg>
       </div>
       <ul class="c-sidebar-nav">
-        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>dashboard">
+        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>superadmin">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="<?php echo base_url();?>assets/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
             </svg> Dashboard</a>
         </li>
-        <!-- <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>company">
+        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>superadmin/admin">
+            <i class="c-sidebar-nav-icon fa fa-users"></i> Admin Gameplay</a>
+        </li>
+        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>company">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="<?php echo base_url();?>assets/vendors/@coreui/icons/svg/free.svg#cil-briefcase"></use>
             </svg> Company</a>
-        </li> -->
-        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>issue">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="<?php echo base_url();?>assets/vendors/@coreui/icons/svg/free.svg#cil-book"></use>
-            </svg> Question Issue</a>
-        </li>
-        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>users">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="<?php echo base_url();?>assets/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
-            </svg> User List</a>
         </li>
       </ul>
       <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
@@ -93,7 +86,7 @@
               <div class="c-avatar"><img class="c-avatar-img" src="<?php echo base_url();?>assets/assets/img/avatars/6.jpg" alt="user@email.com"></div>
             </a>
             <div class="dropdown-menu dropdown-menu-right pt-0">
-              <div class="dropdown-header bg-light py-2"><strong>Account</strong></div><a class="dropdown-item" href="<?php echo base_url();?>login/logout">
+              <div class="dropdown-header bg-light py-2"><strong>Account</strong></div><a class="dropdown-item" href="<?php echo base_url();?>login/superadminLogout">
                 <svg class="c-icon mr-2">
                   <use xlink:href="#"></use>
                 </svg> Logout</a>

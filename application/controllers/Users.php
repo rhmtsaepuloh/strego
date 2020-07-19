@@ -11,8 +11,9 @@ class Users extends CI_Controller
 
   public function index()
   {
+    $administrator = $this->session->userdata('user');
     $where['type'] = 2;
-    $data['list'] = $this->Db_select->query_all('select a.*, b.name name_company from user a join company b on a.id_company = b.id where a.type = 2');
+    $data['list'] = $this->Db_select->query_all('select a.*, b.name name_company from user a join company b on a.id_company = b.id where a.type = 2 and b.type_gameplay = '.$administrator['role']);
 
     $this->load->view('header', $data);
     $this->load->view('users');
