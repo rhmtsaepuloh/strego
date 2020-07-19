@@ -186,4 +186,52 @@ class Question extends CI_Controller
     }
     echo json_encode($result);
   }
+
+  public function getSummery()
+  {
+    $require = array('user_id', 'token', 'id_invite');
+    $this->global_lib->input($require);
+
+    $getLogGame = $this->Db_select->select_where('invite_log', 'id = '.$this->input->post('id_invite'));
+    if ($getLogGame) {
+      $wherePlayer1['id_invite'] = $getLogGame->id;
+      $wherePlayer1['user_id'] = $getLogGame->from;
+      $wherePlayer2['id_invite'] = $getLogGame->id;
+      $wherePlayer2['user_id'] = $getLogGame->to;
+
+      if ($getLogGame->from === $this->input->post('user_id')) {
+        $player = $this->Db_select->query('select *from log_answer where id_invite = "'.$getLogGame->id.'" and user_id = "'.$getLogGame->from.'" order by id desc');
+        $opponent = $this->Db_select->query('select *from log_answer where id_invite = "'.$getLogGame->id.'" and user_id = "'.$getLogGame->to.'" order by id desc');
+      } else {
+        $player = $this->Db_select->query('select *from log_answer where id_invite = "'.$getLogGame->id.'" and user_id = "'.$getLogGame->to.'" order by id desc');
+        $opponent = $this->Db_select->query('select *from log_answer where id_invite = "'.$getLogGame->id.'" and user_id = "'.$getLogGame->from.'" order by id desc');
+      }
+
+      if ($player && $opponent) {
+        $questionMe = $player->point;
+        $questionYou = $opponent->point;
+
+        if ($questionMe && $questionYou) {
+          $data['player_point'] = $questionMe;
+          $data['player_opponent'] = $questionYou;
+          
+          $result['status'] = true;
+          $result['message'] = "Success";
+          $result['data'] = $data;
+        } else{
+          $result['status'] = true;
+          $result['message'] = "Game invalid, please contact developer";
+          $result['data'] = null;
+        }
+      } else {
+        $result['status'] = true;
+        $result['message'] = "the game isn't over yet";
+        $result['data'] = null;
+      }
+    } else {
+      $result['status'] = true;
+      $result['message'] = 'Game history not found';
+      $result['data'] = null;
+    }
+  }
 }
