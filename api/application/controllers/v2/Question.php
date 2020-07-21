@@ -149,12 +149,12 @@ class Question extends CI_Controller
         $company = $this->Db_select->select_where('company', 'id = '.$user->id_company);
 
         $msg = array(
-          'title' => $this->datauser->name.' completed change answer', 
-          'body' => 'Opponent change answer completed', 
+          'title' => $this->datauser->name.' change answer', 
+          'body' => 'Opponent change answer', 
           'nama_pengirim' => $this->datauser->name,
           'id_invite' => $this->input->post('id_invite'),
           'company' => $company->name,
-          'android_channel_id' => 'waiting_completed',
+          'android_channel_id' => 'waiting_change',
         );
         $this->global_lib->fcm($user, $msg);
       } elseif ($type == 2) {
