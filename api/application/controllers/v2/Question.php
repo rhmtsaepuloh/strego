@@ -158,6 +158,14 @@ class Question extends CI_Controller
         );
         $this->global_lib->fcm($user, $msg);
       } elseif ($type == 2) {
+        $updateUser['in_game'] = 0;
+        $whereUser['id'] = $check->from;
+        $this->Db_dml->update('user', $updateUser, $whereUser);
+
+        $updateUser2['in_game'] = 0;
+        $whereUser2['id'] = $check->to;
+        $this->Db_dml->update('user', $updateUser2, $whereUser2);
+        
         $where['id_invite'] = $this->input->post('id_invite');
         $update['finish'] = 1;
         $this->Db_dml->update('log_answer', $update, $where);
@@ -176,9 +184,33 @@ class Question extends CI_Controller
         $this->global_lib->fcm($user, $msg);
       }
 
+      $user = $this->Db_select->select_where('user', ['id' => $this->input->post('user_id')]);
+      $question = json_encode(json_decode($this->input->post('final_answer')));
+
+      $ch = curl_init('http://strego.yasir.asia/calculation.php');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+      curl_setopt($ch, CURLOPT_POST, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $question);
+      
+      // Set HTTP Header for POST request 
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          'Content-Type: application/json',
+          'Content-Length: ' . strlen($question))
+      );
+      
+      $data = json_decode(curl_exec($ch));
+      curl_close($ch);
+
+      if ($user->id_company == 3) {
+        $hasil['point'] = $data->net_value_1;
+      } else {
+        $hasil['point'] = $data->net_value_2;
+      }
+
       $result['status'] = true;
       $result['message'] = 'Success';
-      $result['data'] = null;
+      $result['data'] = $hasil;
     } else {
       $result['status'] = true;
       $result['message'] = 'Game history not found';
