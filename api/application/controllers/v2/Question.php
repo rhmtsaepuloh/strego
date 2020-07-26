@@ -61,8 +61,8 @@ class Question extends CI_Controller
     
     // Set HTTP Header for POST request 
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($question))
+      'Content-Type: application/json',
+      'Content-Length: ' . strlen($question))
     );
     
     $data = json_decode(curl_exec($ch));
@@ -265,5 +265,37 @@ class Question extends CI_Controller
       $result['message'] = 'Game history not found';
       $result['data'] = null;
     }
+  }
+
+  public function getQuestion()
+  {
+    $require = array('id_invite');
+    $this->global_lib->input($require);
+    $user_id = $this->input->post('user_id');
+
+    $getDataInvite = $this->Db_select->select_where('invite_log', 'id = '.$this->input->post('id_invite'));
+
+    if ($getDataInvite) {
+      $userId = $getDataInvite->from == $user_id ? $getDataInvite->to : $getDataInvite->from;
+      $where['id_invite'] = $this->input->post('id_invite');
+      $where['user_id'] = $userId;
+      $getData = $this->Db_select->select_where('log_answer', $where);
+
+      if ($getData) {
+        $result['status'] = true;
+        $result['message'] = 'success';
+        $result['data'] = json_decode($getData->answer_json);
+      } else {
+        $result['status'] = true;
+        $result['message'] = 'Game history not found';
+        $result['data'] = null;
+      }
+    } else {
+      $result['status'] = true;
+      $result['message'] = 'Game history not found';
+      $result['data'] = null;
+    }
+
+    echo json_encode($result);
   }
 }

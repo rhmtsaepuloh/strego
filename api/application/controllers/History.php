@@ -333,4 +333,81 @@ class History extends CI_Controller
     $where['id'] = $idCompany;
     return $this->Db_select->select_where('company', $where);
   }
+
+  public function historyV2()
+  {
+    $require = array('user_id', 'token');
+    $this->global_lib->input($require);
+
+    $where['user_id'] = $this->input->post('user_id');
+    $where['finish'] = 1;
+    $getData = $this->Db_select->select_all_where('log_answer', $where);
+
+    if ($getData) {
+      foreach ($getData as $key => $value) {
+        unset($value->id);
+        unset($value->id_invite);
+        unset($value->user_id);
+        unset($value->finish);
+        unset($value->created_at);
+        $value->answer = json_decode($value->answer_json);
+        unset($value->answer_json);
+      }
+      $result['status'] = true;
+      $result['message'] = 'success';
+      $result['data'] = $getData;
+    } else {
+      $result['status'] = true;
+      $result['message'] = 'History gameplay empty';
+      $result['data'] = null;
+    }
+
+    echo json_encode($result);
+  }
+
+  public function scoreBoardV2()
+  {
+    $require = array('user_id', 'token');
+    $this->global_lib->input($require);
+
+    $user_id = $this->input->post('user_id');
+    $getAll = $this->Db_select->query_all('select * from invite_log a join log_answer b on a.id = b.id_invite where b.finish = 1 group by a.id order by b.point desc');
+
+    $dataAll = array();
+    foreach ($getAll as $key => $value) {
+      $getPlayer1 = $this->Db_select->query('select a.*, b.name as name_company from user a join company b on a.id_company = b.id where a.id = '.$value->from);
+      $getPlayer2 = $this->Db_select->query('select a.*, b.name as name_company from user a join company b on a.id_company = b.id where a.id = '.$value->to);
+
+      /* get point */
+      $pointPlayer1 = $this->Db_select->select_where('log_answer', ['id_invite' => $value->id, 'user_id' => $value->from]);
+      $pointPlayer2 = $this->Db_select->select_where('log_answer', ['id_invite' => $value->id, 'user_id' => $value->to]);
+      $pointPlayer1 = $pointPlayer1 ? $pointPlayer1->point : 0;
+      $pointPlayer2 = $pointPlayer2 ? $pointPlayer2->point : 0;
+      $data = array(
+        "id_invite" => $value->id,
+        "player_1" => $getPlayer1->name,
+        "company_player_1" => $getPlayer1->name_company,
+        "point_player_1" => $pointPlayer1,
+        "player_2" => $getPlayer2->name,
+        "company_player_2" => $getPlayer2->name_company,
+        "point_player_2" => $pointPlayer2,
+        "total_point" => $pointPlayer1 + $pointPlayer2,
+        "created_at" => $value->created_at
+      );
+
+      array_push($dataAll, $data);
+    }
+
+    if (count($dataAll) > 0) {
+      $result['status'] = true;
+      $result['message'] = 'success';
+      $result['data'] = $dataAll;
+    } else {
+      $result['status'] = true;
+      $result['message'] = 'Scoreboard is empty';
+      $result['data'] = null;
+    }
+
+    echo json_encode($result);
+  }
 }
