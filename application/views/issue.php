@@ -4,7 +4,7 @@
       <!-- /.row-->
       <div class="card">
         <div class="card-header">
-          Data Company
+          Data Issue
           <button class="btn btn-info float-right" data-toggle="modal" data-target="#myModal">Add Issue</button>
         </div>
         <div class="card-body">
