@@ -10,18 +10,27 @@ class Issue extends CI_Controller
   public function index()
   {
     $administrator = $this->session->userdata('user');
-    $list = $this->Db_select->select_all('issue');
     $data['company'] = $this->Db_select->select_all_where('company', ['type_gameplay' => $administrator['role']]);
 
-    foreach ($list as $key => $value) {
-      $getWeight = $this->Db_select->query_all('select a.*, b.name from weight a join company b on a.id_company = b.id where a.id_issue = '.$value->id);
-      $value->weight = $getWeight;
+    if ($administrator['role'] == 1) {
+      $data['list'] = $this->Db_select->select_all('question_list');
+      $this->load->view('header', $data);
+      $this->load->view('issue-v2');
+      $this->load->view('footer');
+    } else {
+      $list = $this->Db_select->select_all('issue');
+  
+      foreach ($list as $key => $value) {
+        $getWeight = $this->Db_select->query_all('select a.*, b.name from weight a join company b on a.id_company = b.id where a.id_issue = '.$value->id);
+        $value->weight = $getWeight;
+      }
+      $data['list'] = $list;
+      
+      $this->load->view('header', $data);
+      $this->load->view('issue');
+      $this->load->view('footer');
     }
-    $data['list'] = $list;
 
-    $this->load->view('header', $data);
-    $this->load->view('issue');
-    $this->load->view('footer');
   }
 
   public function insert()
@@ -129,5 +138,15 @@ class Issue extends CI_Controller
 
     $this->Db_dml->delete('question', $where);
     redirect(base_url('issue/options/'.$data->id_issue));
+  }
+
+  public function editv2($id)
+  {
+    $where['id'] = $id;
+    $update['title'] = $this->input->post('title');
+    $update['type'] = $this->input->post('type');
+    $this->Db_dml->update('question_list', $update, $where);
+    
+    redirect(base_url('issue'));
   }
 }

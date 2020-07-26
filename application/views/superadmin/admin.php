@@ -49,10 +49,7 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label" for="hf-name">Role Gameplay</label>
                 <div class="col-md-8">
-                  <select name="role" class="form-control">
-                    <option value="0" <?php echo $value->role ? '' : 'selected' ?>>V1</option>
-                    <option value="1" <?php echo $value->role ? 'selected' : '' ?>>V2</option>
-                  </select>
+                  <b><?php echo $value->role ? 'V2' : 'V1';?></b>
                 </div>
               </div>
               <div class="form-group row">
