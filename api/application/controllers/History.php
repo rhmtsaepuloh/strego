@@ -43,9 +43,9 @@ class History extends CI_Controller
         $where['id_invite'] = $value->id_invite;
         $finalAnswer = $this->Db_select->select_where('answer', $where);
         if ($finalAnswer) {
-          $value->isDone = false;
-        } else {
           $value->isDone = true;
+        } else {
+          $value->isDone = false;
         }
 
         $value->finalQuestion = $this->summaryData2($value->id_invite, $value->user_id);
@@ -345,11 +345,29 @@ class History extends CI_Controller
 
     if ($getData) {
       foreach ($getData as $key => $value) {
-        unset($value->id);
-        unset($value->id_invite);
+        $getInvite = $this->Db_select->select_where('invite_log', 'id = '.$value->id_invite);
+        $idPlayer = 0;
+        if ($getInvite) {
+          if ($getInvite->from !== $value->user_id) {
+            $idPlayer = $getInvite->from;
+          } else {
+            $idPlayer = $getInvite->to;
+          }
+        }
+        $getOpponent = $this->Db_select->select_where('user', 'id = '.$idPlayer);
+        $company = $this->Db_select->select_where('company', 'id = '.$getOpponent->id_company);
+        $value->opponent_name = $getOpponent->name;
+        $value->opponent_company = $company->name;
+
+        $where2['user_id'] = $value->user_id;
+        $where2['id_invite'] = $value->id_invite;
+        $finalAnswer = $this->Db_select->select_where('log_answer', $where2);
+        if ($finalAnswer) {
+          $value->isDone = true;
+        } else {
+          $value->isDone = false;
+        }
         unset($value->user_id);
-        unset($value->finish);
-        unset($value->created_at);
         $value->answer = json_decode($value->answer_json);
         unset($value->answer_json);
       }
@@ -399,8 +417,15 @@ class History extends CI_Controller
     }
 
     if (count($dataAll) > 0) {
+      $company = $this->Db_select->select_all_where('company', ['type_gameplay' => 1]);
+      $companyList = [];
+      foreach ($company as $key => $value) {
+        array_push($companyList, $value->name);
+      }
+
       $result['status'] = true;
       $result['message'] = 'success';
+      $result['company'] = $companyList;
       $result['data'] = $dataAll;
     } else {
       $result['status'] = true;
