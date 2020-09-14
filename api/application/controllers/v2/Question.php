@@ -53,7 +53,7 @@ class Question extends CI_Controller
 
     $question = json_encode(json_decode($this->input->post('question')));
 
-    $ch = curl_init('http://strego.yasir.asia/calculation.php');
+    $ch = curl_init('https://strego.sbm.itb.ac.id/calculation.php');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLINFO_HEADER_OUT, true);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -187,7 +187,7 @@ class Question extends CI_Controller
       $user = $this->Db_select->select_where('user', ['id' => $this->input->post('user_id')]);
       $question = json_encode(json_decode($this->input->post('final_answer')));
 
-      $ch = curl_init('http://strego.yasir.asia/calculation.php');
+      $ch = curl_init('https://strego.sbm.itb.ac.id/calculation.php');
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLINFO_HEADER_OUT, true);
       curl_setopt($ch, CURLOPT_POST, true);

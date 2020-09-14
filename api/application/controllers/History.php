@@ -345,6 +345,23 @@ class History extends CI_Controller
 
     if ($getData) {
       foreach ($getData as $key => $value) {
+        $question = json_encode(json_decode($value->answer_json));
+
+        $ch = curl_init('https://strego.sbm.itb.ac.id/calculation.php');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $question);
+        
+        // Set HTTP Header for POST request 
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          'Content-Type: application/json',
+          'Content-Length: ' . strlen($question))
+        );
+        
+        $data = json_decode(curl_exec($ch));
+        curl_close($ch);
+        $value->point = $data->net_value_1+$data->net_value_2;
         $getInvite = $this->Db_select->select_where('invite_log', 'id = '.$value->id_invite);
         $idPlayer = 0;
         if ($getInvite) {
@@ -356,6 +373,18 @@ class History extends CI_Controller
         }
         $getOpponent = $this->Db_select->select_where('user', 'id = '.$idPlayer);
         $company = $this->Db_select->select_where('company', 'id = '.$getOpponent->id_company);
+
+        $player = $this->Db_select->select_where('user', 'id = '.$value->user_id);
+        $companyPlayer = $this->Db_select->select_where('company', 'id = '.$player->id_company);
+        if ($companyPlayer->id == 4) {
+          /* player is seller */
+          $value->my_point = $data->net_value_2;
+          $value->opponent_point = $data->net_value_1;
+        } else {
+          /* player is buyer */
+          $value->my_point = $data->net_value_1;
+          $value->opponent_point = $data->net_value_2;
+        }
         $value->opponent_name = $getOpponent->name;
         $value->opponent_company = $company->name;
 
@@ -397,8 +426,8 @@ class History extends CI_Controller
       $getPlayer2 = $this->Db_select->query('select a.*, b.name as name_company from user a join company b on a.id_company = b.id where a.id = '.$value->to);
 
       /* get point */
-      $pointPlayer1 = $this->Db_select->select_where('log_answer', ['id_invite' => $value->id, 'user_id' => $value->from]);
-      $pointPlayer2 = $this->Db_select->select_where('log_answer', ['id_invite' => $value->id, 'user_id' => $value->to]);
+      $pointPlayer1 = $this->Db_select->select_where('log_answer', ['id_invite' => $value->id_invite, 'user_id' => $value->from]);
+      $pointPlayer2 = $this->Db_select->select_where('log_answer', ['id_invite' => $value->id_invite, 'user_id' => $value->to]);
       $pointPlayer1 = $pointPlayer1 ? $pointPlayer1->point : 0;
       $pointPlayer2 = $pointPlayer2 ? $pointPlayer2->point : 0;
       $data = array(
