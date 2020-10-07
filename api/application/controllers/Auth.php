@@ -66,10 +66,11 @@ class auth extends CI_Controller {
 
   public function registration()
   {
-    $require = array('username', 'password', 'name', 'email', 'id_company', 'reg_id');
+    $require = array('username', 'password', 'name', 'email', 'nim', 'reg_id');
     $this->global_lib->input($require);
 
     $insert['username'] = $this->input->post('username');
+    $insert['nim'] = $this->input->post('nim');
     $insert['name'] = $this->input->post('name');
     $insert['email'] = $this->input->post('email');
     $insert['id_company'] = $this->input->post('id_company');
