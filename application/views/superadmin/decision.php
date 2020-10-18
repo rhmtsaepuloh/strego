@@ -12,6 +12,8 @@
               <tr>
                 <th>No</th>
                 <th>Name</th>
+                <th>NIM</th>
+                <th>Class</th>
                 <th>Sequential</th>
                 <th>Logical</th>
                 <th>Global</th>
@@ -23,6 +25,8 @@
                 <tr>
                   <td><?php echo $key+1; ?></td>
                   <td><?php echo $value->user->name; ?></td>
+                  <td><?php echo $value->user->nim ? $value->user->nim : '-'; ?></td>
+                  <td><?php echo $value->kelas; ?></td>
                   <td><?php echo $value->sequential; ?></td>
                   <td><?php echo $value->logical; ?></td>
                   <td><?php echo $value->global; ?></td>
@@ -35,4 +39,4 @@
       </div>
     </div>
   </div>
-</main>
+</main>>

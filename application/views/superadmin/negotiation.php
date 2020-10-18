@@ -12,6 +12,8 @@
               <tr>
                 <th>No</th>
                 <th>Name</th>
+                <th>NIM</th>
+                <th>Class</th>
                 <th>Competing</th>
                 <th>Accommodating</th>
                 <th>Collaborating</th>
@@ -26,6 +28,8 @@
                 <tr>
                   <td><?php echo $key+1; ?></td>
                   <td><?php echo $value->user->name; ?></td>
+                  <td><?php echo $value->user->nim ? $value->user->nim : '-'; ?></td>
+                  <td><?php echo $value->kelas; ?></td>
                   <td><?php echo $value->competing; ?></td>
                   <td><?php echo $value->accommodating; ?></td>
                   <td><?php echo $value->collaborating; ?></td>

@@ -49,6 +49,13 @@ class Superadmin extends CI_Controller
       $value->collaborating = $this->countCollaborating($value->answer);
       $value->avoiding = $this->countAvoiding($value->answer);
       $value->compromising = $this->countCompromising($value->answer);
+      $value->kelas = "-";
+      if ($value->user->id_kelas) {
+        $kelas = $this->Db_select->select_where('kelas', ['id' => $value->user->id_kelas]);
+        if ($kelas) {
+          $value->kelas = $kelas->name;
+        }
+      }
       $value->substantiveConcern = $value->collaborating + $value->competing - $value->accommodating - $value->avoiding;
       $value->relationalConcern = $value->accommodating + $value->collaborating - $value->avoiding - $value->competing;
     }
@@ -69,6 +76,14 @@ class Superadmin extends CI_Controller
       $value->logical = $this->countLogical($value->answer);
       $value->global = $this->countGlobal($value->answer);
       $value->personable = $this->countPersonable($value->answer);
+
+      $value->kelas = "-";
+      if ($value->user->id_kelas) {
+        $kelas = $this->Db_select->select_where('kelas', ['id' => $value->user->id_kelas]);
+        if ($kelas) {
+          $value->kelas = $kelas->name;
+        }
+      }
     }
     $data['data'] = $list;
 
