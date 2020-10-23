@@ -104,4 +104,83 @@ class User extends CI_Controller
 
     echo json_encode($result);
   }
+
+  public function changeProfile()
+  {
+    $require = array('user_id', 'token', 'nama', 'id_kelas');
+    $this->global_lib->input($require);
+
+    $getUser = $this->Db_select->query('select a.*, b.id id_company, b.name company_name from user a join company b on a.id_company = b.id where a.id = '.$this->input->post('user_id'));
+
+    if ($getUser) {
+      $where['id'] = $this->input->post('user_id');
+      $update['name'] = $this->input->post('name');
+      $update['id_kelas'] = $this->input->post('id_kelas');
+
+      $updateData = $this->Db_dml->update('user', $update, $where);
+
+      if ($updateData) {
+        $result['status'] = true;
+        $result['message'] = 'Success';
+        $result['data'] = $getUser;
+      } else {
+        $result['status'] = false;
+        $result['message'] = 'Data failed to save';
+        $result['data'] = $getUser;
+      }
+    } else {
+      $result['status'] = true;
+      $result['message'] = 'User data not found';
+      $result['data'] = null;
+    }
+
+    echo json_encode($result);
+  }
+
+  public function changePassword()
+  {
+    $require = array('user_id', 'token', 'old_password', 'new_password', 'confirm_password');
+    $this->global_lib->input($require);
+
+    $old_password = $this->input->post('old_password');
+    $new_password = $this->input->post('new_password');
+    $confirm_password = $this->input->post('confirm_password');
+
+    $getUser = $this->Db_select->query('select a.*, b.id id_company, b.name company_name from user a join company b on a.id_company = b.id where a.id = '.$this->input->post('user_id'));
+
+    if ($getUser) {
+      if ($getUser->password == md5($old_password)) {
+        if ($new_password == $confirm_password) {
+          $where['id'] = $this->input->post('user_id');
+          $update['password'] = md5($new_password);
+  
+          $updateData = $this->Db_dml->update('user', $update, $where);
+  
+          if ($updateData) {
+            $result['status'] = true;
+            $result['message'] = 'Success';
+            $result['data'] = $getUser;
+          } else {
+            $result['status'] = false;
+            $result['message'] = 'Data failed to save';
+            $result['data'] = $getUser;
+          }
+        } else {
+          $result['status'] = false;
+          $result['message'] = 'Your new password doesn`t match';
+          $result['data'] = null;
+        }
+      } else {
+        $result['status'] = false;
+        $result['message'] = 'Your old password doesn`t match';
+        $result['data'] = null;
+      }
+    } else {
+      $result['status'] = true;
+      $result['message'] = 'User data not found';
+      $result['data'] = null;
+    }
+
+    echo json_encode($result);
+  }
 }
