@@ -110,7 +110,7 @@ class User extends CI_Controller
     $require = array('user_id', 'token', 'nama', 'id_kelas');
     $this->global_lib->input($require);
 
-    $getUser = $this->Db_select->query('select a.*, b.id id_company, b.name company_name from user a join company b on a.id_company = b.id where a.id = '.$this->input->post('user_id'));
+    $getUser = $this->Db_select->query('select a.*, b.id id_company, b.name company_name from user a left join company b on a.id_company = b.id where a.id = '.$this->input->post('user_id'));
 
     if ($getUser) {
       $where['id'] = $this->input->post('user_id');
@@ -120,6 +120,11 @@ class User extends CI_Controller
       $updateData = $this->Db_dml->update('user', $update, $where);
 
       if ($updateData) {
+        $getUser->name_kelas = null;
+        if ($getUser->id_kelas) {
+          $namaKelas = $this->Db_select->select_where('kelas', ['id' => $getUser->id_kelas]);
+          $getUser->name_kelas = $namaKelas->name;
+        }
         $result['status'] = true;
         $result['message'] = 'Success';
         $result['data'] = $getUser;
