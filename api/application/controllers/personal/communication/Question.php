@@ -40,7 +40,7 @@ class Question extends CI_Controller
 
   public function getStatus()
   {
-    $getData = $this->Db_select->select_where('communication_history', ['user_id' => $this->input->post('user_id')]);
+    $getData = $this->Db_select->select_where('communication_history', ['id_user' => $this->input->post('user_id')]);
 
     if ($getData) {
       $result['status'] = true;
