@@ -7,7 +7,7 @@
           Negotiation Style History
         </div>
         <div class="card-body">
-          <table class="table table-responsive-sm table-bordered table-striped table-sm">
+          <table class="table table-responsive-sm table-bordered table-striped table-sm" id="negotiationStyle">
             <thead>
               <tr>
                 <th>No</th>
@@ -46,3 +46,9 @@
     </div>
   </div>
 </main>
+
+<script>
+  $(document).ready(function() {
+    $('#negotiationStyle').DataTable();
+  });
+</script>

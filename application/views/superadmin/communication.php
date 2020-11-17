@@ -4,20 +4,20 @@
       <!-- /.row-->
       <div class="card">
         <div class="card-header">
-          Decision Style History
+          Communication Style History
         </div>
         <div class="card-body">
-          <table class="table table-responsive-sm table-bordered table-striped table-sm" id="decisionStyle">
+          <table class="table table-responsive-sm table-bordered table-striped table-sm" id="communicationStyle">
             <thead>
               <tr>
                 <th>No</th>
                 <th>Name</th>
                 <th>NIM</th>
                 <th>Class</th>
-                <th>Sequential</th>
-                <th>Logical</th>
-                <th>Global</th>
-                <th>Personable</th>
+                <th>Action</th>
+                <th>Process</th>
+                <th>People</th>
+                <th>Idea</th>
               </tr>
             </thead>
             <tbody>
@@ -27,10 +27,10 @@
                   <td><?php echo $value->user->name; ?></td>
                   <td><?php echo $value->user->nim ? $value->user->nim : '-'; ?></td>
                   <td><?php echo $value->kelas; ?></td>
-                  <td><?php echo $value->sequential; ?></td>
-                  <td><?php echo $value->logical; ?></td>
-                  <td><?php echo $value->global; ?></td>
-                  <td><?php echo $value->personable; ?></td>
+                  <td><?php echo $value->action; ?></td>
+                  <td><?php echo $value->process; ?></td>
+                  <td><?php echo $value->people; ?></td>
+                  <td><?php echo $value->idea; ?></td>
                 </tr>
               <?php } ?>
             </tbody>
@@ -39,10 +39,10 @@
       </div>
     </div>
   </div>
-</main>>
+</main>
 
 <script>
   $(document).ready(function() {
-    $('#decisionStyle').DataTable();
+    $('#communicationStyle').DataTable();
   });
 </script>

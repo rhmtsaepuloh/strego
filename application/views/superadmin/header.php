@@ -5,9 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
-    <meta name="author" content="Łukasz Holeczek">
-    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <meta name="description" content="Strego Apps">
+    <meta name="author" content="Rahmat Saefulloh">
     <title>Strategic Negotiation</title>
     <meta name="theme-color" content="#ffffff">
     <!-- Main styles for this application-->
@@ -16,6 +15,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    <!-- CDN DATATABLE -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
   </head>
   <body class="c-app">
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
@@ -41,6 +42,11 @@
           <svg class="c-sidebar-nav-icon">
             <use xlink:href="<?php echo base_url();?>assets/vendors/@coreui/icons/svg/free.svg#cil-gamepad"></use>
           </svg> Decision Making Style</a>
+        </li>
+        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>superadmin/communication">
+          <svg class="c-sidebar-nav-icon">
+            <use xlink:href="<?php echo base_url();?>assets/vendors/@coreui/icons/svg/free.svg#cil-gamepad"></use>
+          </svg> Communication Style</a>
         </li>
         <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="<?php echo base_url();?>company">
           <svg class="c-sidebar-nav-icon">
